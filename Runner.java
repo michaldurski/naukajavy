@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
@@ -6,16 +7,12 @@ import java.awt.geom.Ellipse2D;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
@@ -27,14 +24,12 @@ import com.lowagie.text.Image;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
-import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.DefaultFontMapper;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
-import com.lowagie.text.xml.xmp.PdfSchema;
 
 public class Runner {
 
@@ -42,7 +37,7 @@ public class Runner {
 		ArrayList<Dokument> lista = new ArrayList<Dokument>();
 		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 		String tmp = "";
-
+		
 		System.out.println();
 		System.out.println("What do you want to do?");
 		System.out.println("create - utworz dokument");
@@ -115,16 +110,14 @@ public class Runner {
 	private static void saveToManyPDFs(ArrayList<Dokument> lista) {
 		try {
 			for (int i = 0; i < lista.size(); i++) {
-				Document document = new Document();
-				PdfWriter.getInstance(document, new FileOutputStream(i + 1 + "_" + lista.get(i).getTytul() + ".pdf"));
-				document.open();
-				document.add(new Paragraph(lista.get(i).saveMitopdf()));
-				document.close();
+				lista.get(i).saveMeToPDF(i+1+"");
 			}
 
-		} catch (Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 
+		} catch (DocumentException e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -324,7 +317,7 @@ public class Runner {
 			PdfWriter.getInstance(document, new FileOutputStream("HelloWorld4.pdf"));
 			document.open();
 			document.addTitle("Hello World example with metadata");
-			document.addAuthor("Adam Wójtowicz");
+			document.addAuthor("Adam WÃ³jtowicz");
 			document.addSubject("This example explains how to add metadata.");
 			document.addKeywords("iText, Hello World, metadata");
 			document.addCreator("My program using iText");
